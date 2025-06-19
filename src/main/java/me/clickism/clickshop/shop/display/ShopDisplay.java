@@ -76,6 +76,7 @@ public abstract class ShopDisplay extends DisplayHandler implements Configuratio
 
     private Display createDisplayIfNotExists(@Nullable UUID uuid, EntityType type) {
         if (exists(uuid)) return (Display) Bukkit.getEntity(uuid);
+        spawnDisplayAsync(getLocation(), type);
         return spawnDisplay(getLocation(), type);
     }
 }

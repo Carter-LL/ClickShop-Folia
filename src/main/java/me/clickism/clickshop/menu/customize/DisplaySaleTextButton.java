@@ -1,6 +1,7 @@
 package me.clickism.clickshop.menu.customize;
 
 import me.clickism.clickshop.Main;
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.Message;
 import me.clickism.clickshop.data.Permission;
 import me.clickism.clickshop.shop.ItemShop;
@@ -62,17 +63,19 @@ public class DisplaySaleTextButton extends ModifyDisplayButton {
         player.closeInventory();
         Message.SALE_TEXT_TYPE.send(player);
         Main.getMain().getChatInputListener().addChatCallback(player, (String message) -> {
-            Bukkit.getScheduler().runTask(Main.getMain(), () -> {
+            FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
                 if (!GlassDisplay.isValidSaleText(message)) {
                     Message.SALE_TEXT_INVALID.send(player);
                     return;
                 }
+
                 display.setSaleText(message);
                 Message.SALE_TEXT_SET.parameterizer()
                         .setColorizeParameters(false)
                         .put("name", message)
                         .send(player);
-            });
-        }, 200, Message.SALE_TEXT_CANCEL);
+            }, 0L); // 0 tick delay = run as soon as possible on the correct thread
+        }, 200L, Message.SALE_TEXT_CANCEL);
+
     }
 }

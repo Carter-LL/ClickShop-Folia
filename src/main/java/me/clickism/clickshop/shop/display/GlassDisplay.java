@@ -103,6 +103,7 @@ public class GlassDisplay extends ShopDisplay {
             return;
         }
         textUUID = createTextDisplayIfNotExists(textUUID).getUniqueId();
+        
         TextDisplay text = getTextDisplay(textUUID);
         text.setTransformation(TEXT_TRANSFORMATION);
         text.setText(Utils.rainbow(saleText, true));

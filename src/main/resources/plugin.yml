@@ -4,6 +4,7 @@ main: me.clickism.clickshop.Main
 api-version: '1.20'
 authors: [ Clickism ]
 description: A shop plugin
+folia-supported: true
 permissions:
   clickshop.create:
     description: Allows a player to create a shop.

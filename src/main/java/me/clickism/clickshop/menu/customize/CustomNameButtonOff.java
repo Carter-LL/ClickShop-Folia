@@ -9,13 +9,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CustomNameButton extends ShopButton {
+public class CustomNameButtonOff extends ShopButton {
 
     private boolean hasCustomName() {
         return getShop().getCustomName() != null;
     }
 
-    public CustomNameButton(int slot, ItemShop shop) {
+    public CustomNameButtonOff(int slot, ItemShop shop) {
         super(slot, shop);
     }
 

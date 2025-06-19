@@ -1,5 +1,7 @@
 package me.clickism.clickshop.shop;
 
+import me.clickism.clickshop.Main;
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.Setting;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,13 +43,22 @@ public abstract class DisplayHandler {
         World world = location.getWorld();
         if (world == null) throw new IllegalArgumentException("World is null.");
         Display display = (Display) world.spawnEntity(location, type);
+        System.out.println(display.getLocation().toString());
 
         display.setViewRange(viewRangeMultiplier * Setting.DISPLAY_VIEW_RANGE.getInt());
         display.setShadowRadius(0f);
         return display;
     }
 
+    protected static void spawnDisplayAsync(Location location, EntityType type) {
+        FoliaCompat.runRegionAtLocation(Main.getMain(), location, () -> {
+            spawnDisplay(location, type, DEFAULT_VIEW_RANGE_MULTIPLIER);
+        }, 0L);
+    }
+
+
     protected static Display spawnDisplay(Location location, EntityType type) {
+
         return spawnDisplay(location, type, DEFAULT_VIEW_RANGE_MULTIPLIER);
     }
 

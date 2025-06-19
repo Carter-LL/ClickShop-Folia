@@ -1,6 +1,7 @@
 package me.clickism.clickshop.shop;
 
 import me.clickism.clickshop.Main;
+import me.clickism.clickshop.Util.FoliaCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -28,8 +29,10 @@ public enum BuySound {
     public void playSound(Player player) {
         if (sound == null) return;
         player.playSound(player, sound, 1f, 1f);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), task -> {
+
+        FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
             player.playSound(player, sound, 1f, 2f);
         }, 2L);
     }
+
 }

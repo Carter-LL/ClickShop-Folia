@@ -1,6 +1,7 @@
 package me.clickism.clickshop.shop.connector;
 
 import me.clickism.clickshop.Main;
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.Message;
 import me.clickism.clickshop.data.Setting;
 import org.bukkit.*;
@@ -81,15 +82,18 @@ public abstract class Connector {
     }
 
     protected void connectEffect(Player player, Location target) {
-        player.spawnParticle(Particle.SONIC_BOOM, target.clone().add(.5, .5, .5), 1, 0, 0, 0, 2);
+        player.spawnParticle(Particle.SONIC_BOOM, target.clone().add(0.5, 0.5, 0.5), 1, 0, 0, 0, 2);
         player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_FALL, 1f, 1f);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), task -> {
+
+        FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
             player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_FALL, 1f, 1.5f);
         }, 4L);
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), task -> {
+
+        FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
             player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_FALL, 1f, 2f);
         }, 6L);
     }
+
 
     protected void disconnectEffect(Player player) {
         player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_FALL, 1f, .5f);

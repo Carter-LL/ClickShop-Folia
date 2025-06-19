@@ -2,10 +2,10 @@ package me.clickism.clickshop.data;
 
 import me.clickism.clickshop.Main;
 import me.clickism.clickshop.utils.Utils;
+import me.clickism.clickshop.Util.FoliaCompat; // Make sure this import is present
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,7 +18,7 @@ public enum MessageType {
         @Override
         public void playSound(Player player) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1f);
-            Bukkit.getScheduler().runTaskLater(Main.getMain(), task -> {
+            FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 2f);
             }, 2L);
         }
@@ -33,7 +33,7 @@ public enum MessageType {
         @Override
         public void playSound(Player player) {
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 1f);
-            Bukkit.getScheduler().runTaskLater(Main.getMain(), task -> {
+            FoliaCompat.runPlayerRegion(Main.getMain(), player, () -> {
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_CHIME, 1f, 2f);
             }, 2L);
         }
@@ -41,7 +41,7 @@ public enum MessageType {
     FAIL("&c[❌] ") {
         @Override
         public void playSound(Player player) {
-            player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 1f, .5f);
+            player.playSound(player, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 1f, 0.5f);
         }
     },
     WARN("&e[⚠] ") {

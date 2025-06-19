@@ -1,5 +1,7 @@
 package me.clickism.clickshop.shop.connector;
 
+import me.clickism.clickshop.Main;
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.Setting;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -45,7 +47,7 @@ public class Tether {
         Location voidLocation = from.getLocation();
         voidLocation.setY(-100);
         from.setLeashHolder(null);
-        from.teleport(voidLocation);
+        FoliaCompat.teleportSafely(Main.getMain(), from, voidLocation);
         from.setHealth(0d);
 
         if (knot != null) {
@@ -55,7 +57,7 @@ public class Tether {
         if (to instanceof Player) return;
 
         to.setLeashHolder(null);
-        to.teleport(voidLocation);
+        FoliaCompat.teleportSafely(Main.getMain(), to, voidLocation);
         to.setHealth(0d);
     }
 

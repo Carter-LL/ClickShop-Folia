@@ -21,7 +21,7 @@ public class CustomizeShopMenu extends ShopMenu {
 
         addButton(new ColorMenuButton(10, shop));
         addButton(new ChangeBlockButton(19, shop));
-        addButton(new CustomNameButton(28, shop));
+        //addButton(new CustomNameButtonOff(28, shop));
 
         addButton(new BuildGlassDisplayButton(16, shop));
         addButton(new BuildFrameDisplayButton(25, shop));

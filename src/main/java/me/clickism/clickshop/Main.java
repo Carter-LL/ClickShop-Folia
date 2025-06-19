@@ -1,5 +1,6 @@
 package me.clickism.clickshop;
 
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.DataManager;
 import me.clickism.clickshop.data.Message;
 import me.clickism.clickshop.data.Setting;
@@ -50,18 +51,6 @@ public final class Main extends JavaPlugin {
         registerAllEvents();
 
         // Check for updates
-        new UpdateChecker(this, SPIGOT_ID).checkVersion(version -> {
-            if (!version.equals(getDescription().getVersion())) {
-                Logger.info("New version available: " + version);
-                MessageParametizer message = Message.UPDATE.parameterizer()
-                        .put("version", version);
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    if (player.isOp()) {
-                        message.send(player);
-                    }
-                });
-            }
-        });
 
         getLogger().info("ClickShop activated.");
     }
@@ -75,34 +64,37 @@ public final class Main extends JavaPlugin {
     }
 
     private void initializeAllManagers() {
-        menuListener = new MenuListener();
-        connectorManager = new ConnectorManager();
-        chatInputListener = new ChatInputListener(this);
+        FoliaCompat.runGlobalRegion(plugin, () -> {
+            menuListener = new MenuListener();
+            connectorManager = new ConnectorManager();
+            chatInputListener = new ChatInputListener(this);
+
+            registerEvents(
+                    menuListener,
+                    connectorManager,
+                    chatInputListener,
+                    new ShopInteractEvent(),
+                    new PileInteractEvent(),
+                    new PileBreakEvent(),
+                    new ShopBreakEvent(),
+                    new ShopCreateEvent(),
+                    new PlaceEvent(),
+                    new StockpileBreakEvent(),
+                    new JoinEvent(),
+                    new ExplodeEvent()
+            );
+
+            if (Setting.PROTECT_STOCKPILES.isEnabled()) {
+                registerEvents(new StockpileGriefEvent());
+            }
+
+            if (Setting.BLOCK_PISTON.isEnabled()) {
+                registerEvents(new PistonEvent());
+            }
+        }, 0L);
     }
 
     private void registerAllEvents() {
-        registerEvents(
-                menuListener,
-                connectorManager,
-                chatInputListener,
-                new ShopInteractEvent(),
-                new PileInteractEvent(),
-                new PileBreakEvent(),
-                new ShopBreakEvent(),
-                new ShopCreateEvent(),
-                new PlaceEvent(),
-                new StockpileBreakEvent(),
-                new JoinEvent(),
-                new ExplodeEvent()
-        );
-
-        if (Setting.PROTECT_STOCKPILES.isEnabled()) {
-            registerEvents(new StockpileGriefEvent());
-        }
-
-        if (Setting.BLOCK_PISTON.isEnabled()) {
-            registerEvents(new PistonEvent());
-        }
     }
 
     private void registerEvents(Listener... listeners) {

@@ -1,5 +1,6 @@
 package me.clickism.clickshop;
 
+import me.clickism.clickshop.Util.FoliaCompat;
 import me.clickism.clickshop.data.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,13 +26,16 @@ public class ChatInputListener implements Listener {
 
     public void addChatCallback(Player player, Consumer<String> callback, long timeoutTicks, Message cancelMessage) {
         callbackMap.put(player, callback);
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+
+        FoliaCompat.runPlayerRegion(plugin, player, () -> {
+            // Only expire if the same callback is still present
             if (callbackMap.get(player) == callback) {
                 callbackMap.remove(player);
                 cancelMessage.send(player);
             }
         }, timeoutTicks);
     }
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
